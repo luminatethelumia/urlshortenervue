@@ -5,15 +5,15 @@
             <h2>Shorten your URL</h2>
             <form>
                 <!-- <label for="name">Name:</label> -->
-                <input type="text" id="longname" name="longname" placeholder="Enter your long URL" required>
+                <input ref="my_input" type="text" id="longname" name="longname" placeholder="Enter your long URL" required>
                 
                 <!-- <label for="email">Email:</label> -->
-                <input type="text" id="shortname" name="shortname" placeholder="Enter your shortname (Optional)" required>
+                <!-- <input type="text" id="shortname" name="shortname" placeholder="Enter your shortname (Optional)" required> -->
                 
                 <!-- <label for="message">Message:</label> -->
                 <!-- <textarea id="message" name="message" placeholder="Enter your message" rows="4" required></textarea> -->
                 
-                <button type="submit">Submit</button>
+                <button @click.prevent="getFormValues()" type="submit">Submit</button>
             </form>
         </div>
         <div class="list-box">
@@ -29,8 +29,38 @@
 <script>
 export default {
   name: 'UrlView',
+  data() {
+    return {
+        apiUrlTest: "https://localhost:8888",
+        urlpost: ""
+    }
+  },
   props: {
     urlList: Array
+  },
+  methods: {
+    async postData(urlpost) {
+        try {
+            const res = await fetch(this.apiUrlTest + "/UrlShorten/Shorten", {
+            method: "POST",
+            body: JSON.stringify({ url: urlpost }),
+          })
+
+          if (!res.ok) {
+                  throw new Error(`Response status: ${response.status}`);
+                }
+                const finalRes = await res.json();
+                console.log(finalRes)
+
+        } catch (error) {
+          console.error(error.message);
+        }
+      },
+      getFormValues () {
+        this.urlpost = this.$refs.my_input.value
+        console.log(this.urlpost)
+        this.postData(this.urlpost)
+    }
   }
 }
 </script>

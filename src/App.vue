@@ -35,7 +35,7 @@ export default {
               } catch (error) {
                   console.error(error.message);
                 }
-        }
+        },
   },
   mounted() {
     this.getDataTest()
