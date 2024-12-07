@@ -43,12 +43,16 @@ export default {
         try {
             const res = await fetch(this.apiUrlTest + "/UrlShorten/Shorten", {
             method: "POST",
-            body: JSON.stringify({ url: urlpost }),
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ url: urlpost },),
           })
 
-          if (!res.ok) {
-                  throw new Error(`Response status: ${response.status}`);
-                }
+        //   if (!res.ok) {
+        //           throw new Error(`Response status: ${response.status}`);
+        //         }
                 const finalRes = await res.json();
                 console.log(finalRes)
 
